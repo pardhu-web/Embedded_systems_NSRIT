@@ -1,0 +1,163 @@
+C51 COMPILER V8.02   MAIN                                                                  06/19/2024 11:31:34 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>   //header file for 8051
+   2          
+   3          sbit E_red = P1^0;
+   4          sbit E_green = P1^1;
+   5          sbit E_yellow = P1^2;
+   6          
+   7          sbit W_red = P1^3;
+   8          sbit W_green = P1^4;
+   9          sbit W_yellow = P1^5;
+  10          
+  11          sbit S_red = P1^6;
+  12          sbit S_green = P1^7;
+  13          sbit S_yellow = P2^0;
+  14          
+  15          
+  16          sbit N_red = P2^1;
+  17          sbit N_green = P2^2;
+  18          sbit N_yellow = P2^3;
+  19          
+  20          
+  21          void E_allow(int time);
+  22          void W_allow(int time);
+  23          void S_allow(int time);
+  24          void N_allow(int time);
+  25          void delay(int val);
+  26          void E_ready(int num);
+  27          void W_ready(int num);
+  28          void S_ready(int num);
+  29          void N_ready(int num);
+  30          
+  31          
+  32          
+  33          void main()
+  34          {
+  35   1      
+  36   1         E_red=E_green=E_yellow=0;
+  37   1         W_red=W_green=W_yellow=0;
+  38   1         S_red=S_green=S_yellow=0;
+  39   1         N_red=N_green=N_yellow=0;
+  40   1         delay(500);
+  41   1              while(1)
+  42   1              {
+  43   2               E_allow(500); W_ready(5);
+  44   2               W_allow(500); S_ready(5);
+  45   2               S_allow(500); N_ready(5);
+  46   2               N_allow(500); E_ready(5);
+  47   2              }
+  48   1      }
+  49          
+  50          void E_allow(int time)
+  51          {
+  52   1        E_green = 1;  E_red=E_yellow=0;
+  53   1        W_red = 1;  W_green=W_yellow=0;
+  54   1        S_red = 1;  S_green=S_yellow=0;
+  55   1        N_red = 1;  N_green=N_yellow=0;
+C51 COMPILER V8.02   MAIN                                                                  06/19/2024 11:31:34 PAGE 2   
+
+  56   1        delay(time);
+  57   1      }
+  58          
+  59          void W_allow(int time)
+  60          {
+  61   1        W_green = 1;  W_red=W_yellow=0;
+  62   1        E_red = 1;  E_green=E_yellow=0;
+  63   1        S_red = 1;  S_green=S_yellow=0;
+  64   1        N_red = 1;  N_green=N_yellow=0;
+  65   1        delay(time);
+  66   1      }
+  67          
+  68          void S_allow(int time)
+  69          {
+  70   1         S_green = 1;  S_red=S_yellow=0;
+  71   1        W_red = 1;  W_green=W_yellow=0;
+  72   1        E_red = 1;  E_green=E_yellow=0;
+  73   1        N_red = 1;  N_green=N_yellow=0;
+  74   1        delay(time);
+  75   1        }
+  76          
+  77          
+  78          void N_allow(int time)
+  79          {
+  80   1         N_green = 1;  N_red=N_yellow=0;
+  81   1        W_red = 1;  W_green=W_yellow=0;
+  82   1        S_red = 1;  S_green=S_yellow=0;
+  83   1        E_red = 1;  E_green=E_yellow=0;
+  84   1        delay(time);
+  85   1      }
+  86          
+  87           void delay(int val)
+  88            {
+  89   1                unsigned int i,j=0;
+  90   1                for(i=0;i<=val;i++)
+  91   1                {
+  92   2                      for(j=0;j<=1000;j++);
+  93   2                }
+  94   1        }
+  95          
+  96          
+  97            void E_ready(int num)
+  98            {
+  99   1        int i=0;
+ 100   1        for(i=0;i<=num;i++)
+ 101   1        {
+ 102   2         E_yellow = ~E_yellow;
+ 103   2         delay(10);
+ 104   2        }
+ 105   1        }
+ 106          
+ 107            void W_ready(int num)
+ 108            {
+ 109   1        int i=0;
+ 110   1        for(i=0;i<=num;i++)
+ 111   1        {
+ 112   2         W_yellow = ~W_yellow;
+ 113   2         delay(10);
+ 114   2        }
+ 115   1        }
+ 116          
+ 117            void S_ready(int num)
+C51 COMPILER V8.02   MAIN                                                                  06/19/2024 11:31:34 PAGE 3   
+
+ 118            {
+ 119   1        int i=0;
+ 120   1        for(i=0;i<=num;i++)
+ 121   1        {
+ 122   2         S_yellow = ~S_yellow;
+ 123   2         delay(10);
+ 124   2        }
+ 125   1        }
+ 126          
+ 127            void N_ready(int num)
+ 128            {
+ 129   1        int i=0;
+ 130   1        for(i=0;i<=num;i++)
+ 131   1        {
+ 132   2         N_yellow = ~N_yellow;
+ 133   2         delay(10);
+ 134   2        }
+ 135   1        }
+ 136          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    373    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       8
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
