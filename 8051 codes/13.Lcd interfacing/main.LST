@@ -1,0 +1,82 @@
+C51 COMPILER V8.02   MAIN                                                                  06/24/2024 11:41:02 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>
+   2          
+   3          #define lcd P2
+   4          sbit en = P3^0;
+   5          sbit rs = P3^1;
+   6          
+   7          
+   8          void delay(unsigned int time)
+   9          {
+  10   1              unsigned int i,j;
+  11   1              for(i=0;i<=time;i++)
+  12   1              {
+  13   2                      for(j=0;j<=1000;j++);
+  14   2              }
+  15   1      
+  16   1      }
+  17          
+  18          void lcd_cmd(unsigned char ch)
+  19          {
+  20   1        lcd = ch;
+  21   1        rs=0;
+  22   1        en=1;
+  23   1        delay(2);
+  24   1        en=0;
+  25   1      }
+  26          
+  27          void lcd_data(unsigned char ch)
+  28          {
+  29   1        lcd = ch;
+  30   1        rs=1;
+  31   1        en=1;
+  32   1        delay(2);
+  33   1        en=0;
+  34   1      }
+  35          
+  36          
+  37          
+  38          
+  39          void main()
+  40          {
+  41   1              lcd_cmd(0x38);
+  42   1              lcd_cmd(0x01);
+  43   1              lcd_cmd(0x0E);
+  44   1              lcd_cmd(0x06);
+  45   1          while(1)
+  46   1              {
+  47   2              lcd_cmd(0x80);
+  48   2              lcd_data('H');          delay(200);
+  49   2              lcd_data('E');  delay(200);
+  50   2              lcd_data('L');  delay(200);
+  51   2              lcd_data('L');          delay(200);
+  52   2              lcd_data('O');          delay(200);
+  53   2              delay(200);
+  54   2              }
+  55   1              
+C51 COMPILER V8.02   MAIN                                                                  06/24/2024 11:41:02 PAGE 2   
+
+  56   1                      
+  57   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    124    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
