@@ -1,0 +1,145 @@
+C51 COMPILER V8.02   MAIN                                                                  07/02/2024 11:49:10 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h> //header file
+   2          #include<stdio.h> // sprint
+   3          
+   4          #define lcd P2   //lcd data pins
+   5          sbit en = P3^1;  //Enable
+   6          sbit rs = P3^0;  //Register select
+   7          
+   8          
+   9          sbit r1 = P1^0;
+  10          sbit r2 = P1^1;
+  11          sbit r3 = P1^2;
+  12          sbit r4 = P1^3;
+  13          
+  14          sbit c1 = P1^4;
+  15          sbit c2 = P1^5;
+  16          sbit c3 = P1^6;
+  17          
+  18          
+  19          void delay(unsigned int time)     //delay function
+  20          {
+  21   1              unsigned int i,j;
+  22   1              for(i=0;i<=time;i++)
+  23   1              {
+  24   2                      for(j=0;j<=1000;j++);
+  25   2              }
+  26   1      
+  27   1      }
+  28          
+  29          void lcd_cmd(unsigned char ch)   //command function
+  30          {
+  31   1        lcd = ch;
+  32   1        rs=0;
+  33   1        en=1;
+  34   1        delay(2);
+  35   1        en=0;
+  36   1      }
+  37          
+  38          void lcd_data(unsigned char ch)  //data function
+  39          {
+  40   1        lcd = ch;
+  41   1        rs=1;
+  42   1        en=1;
+  43   1        delay(2);
+  44   1        en=0;
+  45   1      }
+  46          
+  47          void lcd_print(char str[])
+  48          {
+  49   1              unsigned int k=0;
+  50   1              for(k=0;str[k]!='\0';k++)
+  51   1              {
+  52   2                lcd_data(str[k]);
+  53   2              }       
+  54   1      }
+  55          
+C51 COMPILER V8.02   MAIN                                                                  07/02/2024 11:49:10 PAGE 2   
+
+  56          void int_lcd(int num)
+  57          {
+  58   1         char buffer[16];
+  59   1         sprintf(buffer,"%d",num);  
+  60   1         lcd_print(buffer);
+  61   1      }
+  62          
+  63          void float_lcd(float num)
+  64          {
+  65   1         char buffer[16];
+  66   1         sprintf(buffer,"%.2f",num);  
+  67   1         lcd_print(buffer);
+  68   1      }
+  69          
+  70          char read_keypad()
+  71          {
+  72   1      r1=0;r2=1;r3=1;r4=1;
+  73   1      if(c1 == 0){while(c1==0); return '1';}
+  74   1      if(c2 == 0){while(c2==0); return '2';}
+  75   1      if(c3 == 0){while(c3==0); return '3';}
+  76   1      
+  77   1      r1=1;r2=0;r3=1;r4=1;
+  78   1      if(c1 == 0){while(c1==0); return '4';}
+  79   1      if(c2 == 0){while(c2==0); return '5';}
+  80   1      if(c3 == 0){while(c3==0); return '6';}
+  81   1      
+  82   1      r1=1;r2=1;r3=0;r4=1;
+  83   1      if(c1 == 0){while(c1==0); return '7';}
+  84   1      if(c2 == 0){while(c2==0); return '8';}
+  85   1      if(c3 == 0){while(c3==0); return '9';}
+  86   1      
+  87   1      r1=1;r2=1;r3=1;r4=0;
+  88   1      if(c1 == 0){while(c1==0); return '*';}
+  89   1      if(c2 == 0){while(c2==0); return '0';}
+  90   1      if(c3 == 0){while(c3==0); return '#';}
+  91   1      
+  92   1      return 'n';
+  93   1      
+  94   1      }
+  95          
+  96          char get_key()
+  97          {
+  98   1       char key = 'n';
+  99   1       while(key == 'n')
+ 100   1       {
+ 101   2       key = read_keypad();
+ 102   2       }
+ 103   1       return key;
+ 104   1      }
+ 105          
+ 106          void main()  //main programs
+ 107          {
+ 108   1              lcd_cmd(0x38); //select 8bit 2lines
+ 109   1              lcd_cmd(0x01); //clear display
+ 110   1              lcd_cmd(0x0E); //display on coursor blink
+ 111   1              lcd_cmd(0x06); //Increment from leftg to right
+ 112   1              lcd_cmd(0x80);
+ 113   1              while(1)
+ 114   1              {
+ 115   2                 char new_key = get_key();
+ 116   2                 lcd_data(new_key);
+ 117   2              }               
+C51 COMPILER V8.02   MAIN                                                                  07/02/2024 11:49:10 PAGE 3   
+
+ 118   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    360    ----
+   CONSTANT SIZE    =      8    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      38
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
