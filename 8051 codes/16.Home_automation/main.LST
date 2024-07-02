@@ -1,0 +1,150 @@
+C51 COMPILER V8.02   MAIN                                                                  07/02/2024 11:02:25 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h> //header file
+   2          #include<stdio.h> // sprint
+   3          
+   4          #define lcd P2   //lcd data pins
+   5          sbit en = P3^1;  //Enable
+   6          sbit rs = P3^0;  //Register select
+   7          
+   8          sbit ldr = P1^0;
+   9          sbit temp = P1^1;
+  10          
+  11          sbit light = P3^2;
+  12          
+  13          sbit in1 = P3^3;
+  14          sbit in2 = P3^4;
+  15          
+  16          
+  17          void delay(unsigned int time)     //delay function
+  18          {
+  19   1              unsigned int i,j;
+  20   1              for(i=0;i<=time;i++)
+  21   1              {
+  22   2                      for(j=0;j<=1000;j++);
+  23   2              }
+  24   1      
+  25   1      }
+  26          
+  27          void lcd_cmd(unsigned char ch)   //command function
+  28          {
+  29   1        lcd = ch;
+  30   1        rs=0;
+  31   1        en=1;
+  32   1        delay(2);
+  33   1        en=0;
+  34   1      }
+  35          
+  36          void lcd_data(unsigned char ch)  //data function
+  37          {
+  38   1        lcd = ch;
+  39   1        rs=1;
+  40   1        en=1;
+  41   1        delay(2);
+  42   1        en=0;
+  43   1      }
+  44          
+  45          void lcd_print(char str[])
+  46          {
+  47   1              unsigned int k=0;
+  48   1              for(k=0;str[k]!='\0';k++)
+  49   1              {
+  50   2                lcd_data(str[k]);
+  51   2              }       
+  52   1      }
+  53          
+  54          void int_lcd(int num)
+  55          {
+C51 COMPILER V8.02   MAIN                                                                  07/02/2024 11:02:25 PAGE 2   
+
+  56   1         char buffer[16];
+  57   1         sprintf(buffer,"%d",num);  
+  58   1         lcd_print(buffer);
+  59   1      }
+  60          
+  61          void float_lcd(float num)
+  62          {
+  63   1         char buffer[16];
+  64   1         sprintf(buffer,"%.2f",num);  
+  65   1         lcd_print(buffer);
+  66   1      }
+  67          
+  68          int ldr_data;
+  69          int temp_data;
+  70          
+  71          void main()  //main programs
+  72          {
+  73   1              lcd_cmd(0x38); //select 8bit 2lines
+  74   1              lcd_cmd(0x01); //clear display
+  75   1              lcd_cmd(0x0E); //display on coursor blink
+  76   1              lcd_cmd(0x06); //Increment from leftg to right
+  77   1       
+  78   1              lcd_cmd(0x80); lcd_print("   WELCOME   ");
+  79   1              lcd_cmd(0xc0); lcd_print("Home Automation"); delay(500);
+  80   1         
+  81   1              while(1)
+  82   1              {
+  83   2                lcd_cmd(0x01);
+  84   2                lcd_cmd(0x80); lcd_print("LDR:");
+  85   2            lcd_cmd(0x8A); lcd_print("Temp:"); 
+  86   2                lcd_cmd(0xC0); lcd_print("L:");
+  87   2            lcd_cmd(0xCA); lcd_print("F:");
+  88   2      
+  89   2                ldr_data = ldr;
+  90   2                temp_data = temp;
+  91   2                lcd_cmd(0x84); int_lcd(ldr_data);
+  92   2                lcd_cmd(0x8f); int_lcd(temp_data);
+  93   2                if(ldr_data == 0)
+  94   2                {
+  95   3                lcd_cmd(0xc2);
+  96   3                lcd_print("ON ");
+  97   3                light = 1;
+  98   3                }
+  99   2                else
+ 100   2                {
+ 101   3                 lcd_cmd(0xc2);
+ 102   3                lcd_print("OFF");
+ 103   3                light = 0;
+ 104   3                }
+ 105   2      
+ 106   2                if(temp_data == 0)
+ 107   2                {
+ 108   3                lcd_cmd(0xcc);
+ 109   3                lcd_print("ON ");
+ 110   3                in1=1;
+ 111   3                in2=0;
+ 112   3                }
+ 113   2                else
+ 114   2                {
+ 115   3                 lcd_cmd(0xcc);
+ 116   3                lcd_print("OFF");
+ 117   3                in1=0;
+C51 COMPILER V8.02   MAIN                                                                  07/02/2024 11:02:25 PAGE 3   
+
+ 118   3                in2=0;
+ 119   3                }
+ 120   2                
+ 121   2                delay(100);
+ 122   2              }               
+ 123   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    410    ----
+   CONSTANT SIZE    =     63    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4      37
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
