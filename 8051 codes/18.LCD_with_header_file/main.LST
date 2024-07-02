@@ -1,0 +1,35 @@
+C51 COMPILER V8.02   MAIN                                                                  07/02/2024 12:07:02 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #include"display.h"
+   3          
+   4          void main()
+   5          {
+   6   1       lcd_cmd(0x38);
+   7   1       lcd_cmd(0x01);
+   8   1       lcd_cmd(0x0E);
+   9   1       lcd_cmd(0x06);
+  10   1      
+  11   1       lcd_print("WELCOME");
+  12   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    200    ----
+   CONSTANT SIZE    =     16    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      37
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
